@@ -14,7 +14,7 @@ import { Navigate } from 'react-router-dom';
 
 
 
-const login = () => {
+const Login = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)"); 
 
@@ -69,4 +69,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login

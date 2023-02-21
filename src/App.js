@@ -15,8 +15,12 @@ import Procurement from './pages/procurement/procurement';
 import Admin from './pages/admin/admin';
 import Login from './pages/login/login';
 import PageNotFound from './pages/404/pageNotFound';
+import Stock from './pages/stock/stock';
+import AdminUsers from './pages/adminUsers/adminUsers';
+import AdminProcurement from './pages/adminProcurement/adminProcurement';
+import UserProfile from './pages/userProfile/userProfile';
 
-import { procurementColumns } from "./datatable";
+import { procurementColumns, stockColumns, usersColumns } from "./datatable";
 
 
 
@@ -34,7 +38,11 @@ function App() {
           <Route path='/' element={<Layout />} >
             <Route index element={<Navigate to="/home" replace />} />
             <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/>} />
-            <Route path='procurement' element={ <Procurement columns={procurementColumns} /> } />
+            <Route path='procurement' element={ <Procurement /> } />
+            <Route path='stock' element={ <Stock columns={stockColumns} /> } />
+            <Route path='adminusers' element={ <AdminUsers columns={usersColumns} /> } />
+            <Route path='adminprocurement' element={ <AdminProcurement columns={procurementColumns} /> } />
+            <Route path='userprofile' element={ <UserProfile /> } />
             {/* router guard !isAuth direct to login page */}
             {/* <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/> } /> */}
           </Route>

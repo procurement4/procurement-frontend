@@ -1,29 +1,68 @@
-export const userColumns = [
-  { field: "_id", headerName: "ID", width: 219 },
+export const usersColumns = [
+  { field: "id", headerName: "ID", width: 100 },
   {
     field: "name",
     headerName: "Name",
-    width: 100,
+    width: 200,
   },
   {
-    field: "username",
+    field: "email",
     headerName: "Username",
-    width: 100,
+    width: 200,
   },
   {
-    field: "role",
-    headerName: "Role",
+    field: "rolename",
+    headerName: "Rolename",
     width: 230,
   },
 
   {
-    field: "role_desc",
-    headerName: "Role Description",
+    field: "is_active",
+    headerName: "Is Active?",
     width: 120,
   },
 ];
 
 export const procurementColumns = [
+  { 
+    field: "id",
+    headerName: "ID",
+    width: 80 
+  },
+  { 
+    field: "procurement_name",
+    headerName: "Procurement Name",
+    width: 200 
+  },
+  { 
+    field: "product_name",
+    headerName: "Product Name",
+    width: 170 
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    width: 100,
+  },
+  {
+    field: "quantity",
+    headerName: "Quantity",
+    width: 100,
+  },
+  {
+    field: "priority",
+    headerName: "Priority",
+    width: 100,
+  },
+  {
+    field: "notes",
+    headerName: "Notes",
+    width: 220,
+  },
+ 
+];
+
+export const stockColumns = [
   { 
     field: "id",
     headerName: "ID",
@@ -42,11 +81,6 @@ export const procurementColumns = [
   {
     field: "stock",
     headerName: "Stock",
-    width: 150,
-  },
-  {
-    field: "price",
-    headerName: "Price",
     width: 150,
   },
 ];

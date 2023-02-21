@@ -21,7 +21,7 @@ import { setLogout } from '../../stores/authSlice';
 
 const pages = ['Home', 'Procurement', 'Stock'];
 const menus = ['Home', 'Procurement', 'Stock'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Reset Password','Logout'];
 
 export function Header() {
 

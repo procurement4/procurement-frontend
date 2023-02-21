@@ -10,7 +10,7 @@ import './pageNotFound.scss'
 import Typography from '@mui/material/Typography';
 
 
-const pageNotFound = () => {
+const PageNotFound = () => {
 
   const renderStars = () => {
     let div = []
@@ -97,4 +97,4 @@ const pageNotFound = () => {
   )
 }
 
-export default pageNotFound
+export default PageNotFound

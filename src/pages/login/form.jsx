@@ -16,7 +16,13 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "../../stores/authSlice";
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
+import MenuItem from '@mui/material/MenuItem';
 import axios from "axios";
+import Select from '@mui/material/Select';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import FormLabel from '@mui/material/FormLabel';
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
@@ -43,6 +49,11 @@ const initialValuesRegister = {
 };
 
 const Form = () => {
+  const [age, setAge] = useState('');
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -59,15 +70,15 @@ const Form = () => {
     // }
     // formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
+    // const savedUserResponse = await fetch(
+    //   "http://localhost:3001/auth/register",
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   }
+    // );
+    // const savedUser = await savedUserResponse.json();
+    // onSubmitProps.resetForm();
   };
 
   const login = async (values, onSubmitProps) => {
@@ -138,6 +149,18 @@ const Form = () => {
                   helperText={touched.name && errors.name}
                   sx={{ gridColumn: "span 4" }}
                 />
+                <FormLabel sx={{ gridColumn: "span 4" }} id="demo-row-radio-buttons-group-label">Role Name</FormLabel>
+                  <RadioGroup
+                      sx={{ gridColumn: "span 4" }}
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    
+                  >
+                    <FormControlLabel value="staff" control={<Radio />} label="Staff" />
+                    <FormControlLabel value="manager" control={<Radio />} label="Manager" />
+                    <FormControlLabel value="finance" control={<Radio />} label="Finance" />
+                  </RadioGroup>
                 <TextField
                   label="Role Name"
                   onBlur={handleBlur}

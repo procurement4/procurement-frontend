@@ -22,6 +22,10 @@ import {
 } from '@mui/material';
 import "./list.scss";
 
+import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
+import { addProcurementProducts } from '../../../../stores/productSlice';
+
 
 function generate(element) {
   return [0, 1, 2].map((value) =>
@@ -36,17 +40,32 @@ const Demo = styled('div')(({ theme }) => ({
 }));
 
 
-const list = ({data, dataCategory, list}) => {
-
+const StockList = ({dataCategory}) => {
 const theme = useTheme();
   const [dense, setDense] = useState(false);
   const [secondary, setSecondary] =useState(false);
+ 
+  const dispatch = useDispatch();
+  const handleClick = async e => {
+    e.preventDefault();
+   
+    try {
+      console.log("Button Add Clicked")
+      dispatch(addProcurementProducts({id: Math.random(), title: 'test', completed: false}))
+      // const newTodos = [...todos, {id: todos.length +1, title: todo, completed: false} ]
+      // setTodos(newTodos)
+      // setTodo('')
+    } catch (err) {
+    }
+  }
+
+
 
   return (
-    <Box className='listBox' sx={{ flexGrow: 1, maxWidth: 382, marginLeft: 40}}>
+    <Box className='listBox' sx={{ flexGrow: 1, maxWidth: 382, marginTop: 2}}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+          <Typography sx={{ mt: 1, mb: 1 }} variant="h6" component="div">
             Product Added to Procurement  
           </Typography>
           <Demo>
@@ -55,8 +74,11 @@ const theme = useTheme();
                 <ListItem
                   key={index}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <AddBox />
+                    <IconButton 
+                    onClick={() => dispatch(addProcurementProducts({id: item.id, name: item.name, category: item.category, quantity: '', price: '', priority: 'Select Priority', notes: ''}))} 
+                    edge="end" 
+                    aria-label="add">
+                      <AddBox/>
                     </IconButton>
                   }
                 >
@@ -67,7 +89,7 @@ const theme = useTheme();
                   </ListItemAvatar> */}
                   <ListItemText
                     primary={item.name}
-                    secondary={item.stock}
+                    secondary={"Stock " + item.stock}
                   />
                 </ListItem>
               ))}
@@ -79,4 +101,4 @@ const theme = useTheme();
   )
 }
 
-export default list
+export default StockList

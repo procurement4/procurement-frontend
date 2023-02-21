@@ -14,12 +14,21 @@ import Button from '@mui/material/Button';
 
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
-import { productCategory } from '../../stores/productSlice';
+import { productCategory, addProcurementProducts } from '../../stores/productSlice';
 
 import List from './components/list/list';
 import Cart from './components/cart/cart';
+import FormDialog from './components/addModalProduct/modal';
 
-const procurement = ({columns}) => {
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+
+
+const Procurement = () => {
   // const location = useLocation()
   // const path = location.pathname.split("/")[2]
   // const userdata = JSON.parse(localStorage.getItem("user"))
@@ -115,41 +124,65 @@ const procurement = ({columns}) => {
   console.log("category :", category)
   const handleChange = (event) => {
     setCategory(event.target.value);
-    dispatch(productCategory(category))
+    dispatch(productCategory(event.target.value))
     // const dataCategory = useSelector((state) => state.product.category);
     // setList(dataCategory);
   };
   
   const data = useSelector((state) => state.product.data);
   const dataCategory = useSelector((state) => state.product.category);
+
+  
+
   console.log("data : ", data)
   console.log("dataCategory : ", dataCategory)
+
   return (
     <div className="container">
-      <div className="productBox">
-        <Box sx={{ minWidth: 340 , maxWidth: 382, marginTop: 10, marginLeft: 40}}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={category}
-              label="Select Category"
-              onChange={handleChange}
-            >
-              <MenuItem value={"Office"}>Office</MenuItem>
-              <MenuItem value={"Logistic"}>Logistic</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <List data={data} dataCategory={dataCategory}/>
-      </div>
-      <div>
-        <Button sx={{marginTop: 15}} variant="outlined">Add Product</Button>
-        <Cart/>
-      </div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          transition={Slide}
+          limit={2}
+        />
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+
+          <Grid item xs={6} md={4}>
+            <Box sx={{ minWidth: 340 , maxWidth: 382, marginTop: 10}}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="Select Category"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={"Office"}>Office</MenuItem>
+                  <MenuItem value={"Logistic"}>Logistic</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <List dataCategory={dataCategory}/>
+          </Grid>
+
+          <Grid item xs={6} md={8}>
+            <FormDialog   />
+            <Cart/>
+          </Grid>
+          
+        </Grid>
+      </Box>
     </div>
   );
 };
 
-export default procurement
+export default Procurement
