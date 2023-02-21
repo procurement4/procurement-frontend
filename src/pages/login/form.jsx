@@ -91,7 +91,11 @@ const Form = () => {
     //   body: JSON.stringify(values),
     // });
     // user: loggedIn.user,
-    const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/users/${loggedInResponse.data.data.user_id}`, { withCredentials: true })
+    const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/users/${loggedInResponse.data.data.user_id}`, 
+      {
+        headers: { Authorization : `Bearer ${loggedInResponse.data.data.token}` }
+      }
+    )
     console.log("res",loggedInResponse);
     console.log("token",loggedInResponse.data.data.token);
     console.log("userResponse : ", userResponse)
