@@ -32,7 +32,7 @@ const loginSchema = yup.object().shape({
 const registerSchema = yup.object().shape({
   name: yup.string().required("required"),
   rolename: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  email: yup.string().required("required"),
   password: yup.string().required("required"),
 });
 
@@ -91,9 +91,10 @@ const Form = () => {
     //   body: JSON.stringify(values),
     // });
     // user: loggedIn.user,
-    const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/auth/users/${loggedInResponse.data.data.user_id}`, { withCredentials: true })
+    const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/users/${loggedInResponse.data.data.user_id}`, { withCredentials: true })
     console.log("res",loggedInResponse);
     console.log("token",loggedInResponse.data.data.token);
+    console.log("userResponse : ", userResponse)
     onSubmitProps.resetForm();
     if (loggedInResponse) {
       dispatch(
@@ -106,6 +107,7 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    console.log("Values : ", values)
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
   };
@@ -138,7 +140,7 @@ const Form = () => {
             {isRegister && (
               <>
                 <TextField
-                  label="Name"
+                  label="name"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.name}
@@ -151,26 +153,20 @@ const Form = () => {
                 />
                 <FormLabel sx={{ gridColumn: "span 4" }} id="demo-row-radio-buttons-group-label">Role Name</FormLabel>
                   <RadioGroup
-                      sx={{ gridColumn: "span 4" }}
+                    sx={{ gridColumn: "span 4" }}
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    
+
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.rolename}
+                    name="rolename"
                   >
                     <FormControlLabel value="staff" control={<Radio />} label="Staff" />
                     <FormControlLabel value="manager" control={<Radio />} label="Manager" />
                     <FormControlLabel value="finance" control={<Radio />} label="Finance" />
                   </RadioGroup>
-                <TextField
-                  label="Role Name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.rolename}
-                  name="rolename"
-                  error={Boolean(touched.rolename) && Boolean(errors.rolename)}
-                  helperText={touched.rolename && errors.rolename}
-                  sx={{ gridColumn: "span 4" }}
-                />
+               
               </>
             )}
 
