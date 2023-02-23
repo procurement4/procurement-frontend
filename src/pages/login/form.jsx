@@ -23,9 +23,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import FormLabel from '@mui/material/FormLabel';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
 const loginSchema = yup.object().shape({
-  email: yup.string().email("invalid email").required("required"),
+  email: yup.string().required("required"),
   password: yup.string().required("required"),
 });
 
@@ -49,11 +50,11 @@ const initialValuesRegister = {
 };
 
 const Form = () => {
-  const [age, setAge] = useState('');
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const [email, setEmail] = useState('');
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
   };
-
+console.log("Email :", email)
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   const dispatch = useDispatch();
@@ -61,55 +62,104 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const isReset = pageType === "reset";
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    // const formData = new FormData();
-    // for (let value in values) {
-    //   formData.append(value, values[value]);
-    // }
-    // formData.append("picturePath", values.picture.name);
+    try {
+      const registerAcc = await axios.post("https://user-service.procurement-capstone.site/api/v1/register", values)
+      console.log("reset password email : ", registerAcc)
+      console.log("register : ", values)
+      toast.success('Success, Check Your Mail To Activate Your Account', {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+        onSubmitProps.resetForm();
+    } catch (error) {
+      toast.error('Error', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+    }
 
-    // const savedUserResponse = await fetch(
-    //   "http://localhost:3001/auth/register",
-    //   {
-    //     method: "POST",
-    //     body: formData,
-    //   }
-    // );
-    // const savedUser = await savedUserResponse.json();
-    // onSubmitProps.resetForm();
+    // const uploadRes = await axios.post('https://procurement-service.procurement-capstone.site/api/v1/procurements', values)
+   
   };
 
-  const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await axios.post("https://user-service.procurement-capstone.site/api/v1/auth/login", values)
-
-    // const loggedInResponse = await fetch("https://user-service.procurement-capstone.site/api/v1/auth/login", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   withCredentials: false,
-    //   body: JSON.stringify(values),
-    // });
-    // user: loggedIn.user,
-    const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/users/${loggedInResponse.data.data.user_id}`, { withCredentials: true })
-    console.log("res",loggedInResponse);
-    console.log("token",loggedInResponse.data.data.token);
-    console.log("userResponse : ", userResponse)
-    onSubmitProps.resetForm();
-    if (loggedInResponse) {
-      dispatch(
-        setLogin({
-          token: loggedInResponse.data.data.token,
-        })
-      );
-      navigate("/");
+  const resetPassword = async e => {
+    try {
+      console.log("reset this email : ", email)
+      const resetPass = await axios.post("https://user-service.procurement-capstone.site/api/v1/reset_password", {email: email})
+      console.log("reset password email : ", resetPass)
+      setEmail('')
+      toast.success('Success, Password Reset. Check Your Mail To Change Your Account', {
+        position: "top-center",
+        autoClose: 10000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    } catch (error) {
+      console.log("error :",error)
+      // toast.error('Wrong Email', {
+      //   position: "top-center",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "colored",
+      //   });
     }
+  };
+
+
+  const login = async (values, onSubmitProps) => {
+    try {
+      const loggedInResponse = await axios.post("https://user-service.procurement-capstone.site/api/v1/auth/login", values)
+      const userResponse = await axios.get(`https://user-service.procurement-capstone.site/api/v1/users/${loggedInResponse.data.data.user_id}`, 
+      {
+        headers: { Authorization : `Bearer ${loggedInResponse.data.data.token}` }
+      }
+    )
+      console.log("res",loggedInResponse);
+      console.log("userResponse :",userResponse.data.data);
+      // console.log("userResponse : ", userResponse)
+      onSubmitProps.resetForm();
+      if (loggedInResponse) {
+        dispatch(
+          setLogin({
+            token: loggedInResponse.data.data.token,
+            user: userResponse.data.data,
+          })
+        );
+        navigate("/");
+      }
+    } catch (err) {
+      console.log("error : ", err)
+    }
+
+    
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     console.log("Values : ", values)
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+  
   };
 
   return (
@@ -162,14 +212,15 @@ const Form = () => {
                     value={values.rolename}
                     name="rolename"
                   >
-                    <FormControlLabel value="staff" control={<Radio />} label="Staff" />
-                    <FormControlLabel value="manager" control={<Radio />} label="Manager" />
-                    <FormControlLabel value="finance" control={<Radio />} label="Finance" />
+                    <FormControlLabel value="Staff" control={<Radio />} label="Staff" />
+                    <FormControlLabel value="Manager" control={<Radio />} label="Manager" />
+                    <FormControlLabel value="Finance" control={<Radio />} label="Finance" />
                   </RadioGroup>
                
               </>
             )}
 
+            {isReset === false &&
             <TextField
               label="Email"
               onBlur={handleBlur}
@@ -179,8 +230,16 @@ const Form = () => {
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
               sx={{ gridColumn: "span 4" }}
-            />
+            />}
+            {isReset === true && 
             <TextField
+              label="Email"
+              onChange={handleChangeEmail}
+              value={email}
+              name="email"
+              sx={{ gridColumn: "span 4" }}
+            />}
+          {isReset === false && <TextField
               label="Password"
               type="password"
               onBlur={handleBlur}
@@ -190,12 +249,12 @@ const Form = () => {
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
               sx={{ gridColumn: "span 4" }}
-            />
+            />}
           </Box>
           {/* BUTTONS */}
 
           <Box>
-            <Button
+            {isReset === false &&<Button
               fullWidth
               type="submit"
               sx={{
@@ -207,9 +266,23 @@ const Form = () => {
               }}
             >
               {isLogin ? "LOGIN" : "REGISTER"}
-            </Button>
+            </Button>}
 
-            <Typography
+            {isReset === true &&<Button
+              onClick={resetPassword}
+              fullWidth
+              sx={{
+                m: "2rem 0",
+                p: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
+              }}
+            >
+              {"RESET"}
+            </Button>}
+
+            {isReset === false && <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
@@ -226,7 +299,27 @@ const Form = () => {
               {isLogin
                 ? "Don't have an account? Sign Up here."
                 : "Already have an account? Login here."}
-            </Typography>
+            </Typography>}
+
+           {isRegister === false &&  <Typography
+              onClick={() => {
+                setPageType(isReset ? "login" : "reset");
+                resetForm();
+              }}
+              sx={{
+                marginTop: 2,
+                textDecoration: "underline",
+                color: palette.primary.main,
+                "&:hover": {
+                  cursor: "pointer",
+                  color: palette.primary.light,
+                },
+              }}
+            >
+              {isReset
+                ? "Already have an account? Login here."
+                : "Reset Password"}
+            </Typography>}
           </Box>
         </form>
       )}

@@ -16,16 +16,23 @@ import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
 
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
-import { updateProcurement, deleteProcurementProduct } from '../../../../stores/productSlice';
+import { updateProcurement, deleteProcurementProduct, resetProcurement } from '../../../../stores/productSlice';
+import axios from "axios";
 
 
 const Cart = () => {
-  const procurementProducts = useSelector((state) => state.product.procurement);
-  console.log("procurementProducts : ", procurementProducts)
+
+  const user = useSelector((state) => state.auth.user);
+  console.log("user :", user.id)
+  const detail_procurement = useSelector((state) => state.product.procurement);
+  console.log("procurementProducts : ", detail_procurement)
 
   function Subtotal(props) {
     console.log("props : ", props)
@@ -35,32 +42,47 @@ const Cart = () => {
       return "Rp " + props.item.price * props.item.quantity;
     }
   }
-// const [info, setInfo] = useState({
-//     name:"", 
-//     detail_procurement:[]
-// })
+
+
 const dispatch = useDispatch();
-const [nameProcurement, setNameProcurement] = useState([])
+const [nameProcurement, setNameProcurement] = useState()
 
 const handleChange = (e) => {
   setNameProcurement((prev)=>({...prev,[e.target.id]:e.target.value }))
   console.log("nameProcurement : ",nameProcurement)
 }
 
-  // name" : "procurement baru",
-  //   "user_id": "b9c24b1d-3565-4404-9486-b974ac3731a9",
-  //   "detail_procurement" : [
-       
-  //   ]
+const handleClick = async e => {
+  e.preventDefault();
+  try {
+    const procurement = {name: nameProcurement.name, user_id: user.id, detail_procurement}
+    console.log("procurement : ", procurement)
+    const uploadRes = await axios.post('https://procurement-service.procurement-capstone.site/api/v1/procurements', procurement)
+    console.log("new procurement : ", uploadRes)
 
-// const addProcurement = procurement => e => {
-//   const oldProcurement = info.detail_procurement
-//   // do whatever to create a new colors
-//   // based on oldColors and color, ex.
-//   const procurements = [...oldProcurement, procurement]
-  
-//   setInfo({ ...info, detail_procurement: procurements })
-// }
+    toast.success('Success', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  } catch (err) {
+    console.log("error", err)
+    toast.error('Error', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      });
+  }
+}
 
 
 
@@ -69,9 +91,15 @@ const handleChange = (e) => {
     <Table sx={{ minWidth: 650}} aria-label="simple table">
       <TableHead >
         <TableRow>
-          <TableCell align="center" >Procurement Name</TableCell>
-          <TableCell align="center">
-            <TextField id="name" variant="standard" onChange={handleChange}/>
+          <TableCell colSpan={1} align="center" >Procurement Name</TableCell>
+          <TableCell  align="center" colSpan={4}>
+            <TextField sx={{ width: "100%"}} id="name" variant="standard" onChange={handleChange}/>
+          </TableCell>
+          <TableCell colSpan={3} align="center" >
+            <Stack spacing={2} direction="row">
+            <Button variant="contained" onClick={handleClick}>Submit</Button>
+            <Button variant="outlined" onClick={() => dispatch(resetProcurement())}>Reset</Button>
+            </Stack>
           </TableCell>
         </TableRow>
         <TableRow sx={{ backgroundColor: "grey"}}>
@@ -87,7 +115,7 @@ const handleChange = (e) => {
       </TableHead>
       <TableBody>
   
-        {procurementProducts.map((item, index) => (
+        {detail_procurement.map((item, index) => (
           <TableRow
             key={index}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -97,10 +125,10 @@ const handleChange = (e) => {
             </TableCell>
             <TableCell align="right">{item.category}</TableCell>
             <TableCell align="right">
-              <TextField id="price" type="number" variant="standard" onChange={(e) => dispatch(updateProcurement({id: item.id, price: e.target.value}))}/>
+              <TextField id="price" type="number" variant="standard" onChange={(e) => dispatch(updateProcurement({product_id: item.product_id, price: e.target.value}))}/>
             </TableCell>
             <TableCell align="right">
-              <TextField onChange={(e) => dispatch(updateProcurement({id: item.id, quantity: e.target.value}))} id="quantity" type="number" variant="standard" />
+              <TextField onChange={(e) => dispatch(updateProcurement({product_id: item.product_id, quantity: e.target.value}))} id="quantity" type="number" variant="standard" />
             </TableCell>
             <TableCell align="right">
              <Subtotal item={item}/>
@@ -109,7 +137,7 @@ const handleChange = (e) => {
               <NativeSelect
                 id="demo-simple-select-standard"
                 value={item.priority}
-                onChange={(e) => dispatch(updateProcurement({id: item.id, priority: e.target.value}))}
+                onChange={(e) => dispatch(updateProcurement({product_id: item.product_id, priority: e.target.value}))}
               >
                 <option  value="">Select Priority</option>
                 <option  value="low">Low</option>
@@ -118,11 +146,11 @@ const handleChange = (e) => {
               </NativeSelect>
             </TableCell>
             <TableCell align="right">
-              <TextField multiline id="notes" variant="standard" onChange={(e) => dispatch(updateProcurement({id: item.id, notes: e.target.value}))}/>
+              <TextField multiline id="notes" variant="standard" onChange={(e) => dispatch(updateProcurement({product_id: item.product_id, notes: e.target.value}))}/>
             </TableCell>
             <TableCell align="right">
               <IconButton 
-                    onClick={() => dispatch(deleteProcurementProduct(item.id))} 
+                    onClick={() => dispatch(deleteProcurementProduct(item.product_id))} 
                     edge="end" 
                     aria-label="delete">
                       <DeleteIcon/>

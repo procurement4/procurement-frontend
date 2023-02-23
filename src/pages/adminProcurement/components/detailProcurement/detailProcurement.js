@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import IconButton from '@mui/material/IconButton';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -20,32 +20,47 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import EditIcon from '@mui/icons-material/Edit';
+import InfoIcon from '@mui/icons-material/Info';
+import useFetch from "../../../../hooks/useFetch";
+import axios from 'axios';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Invoice({ableButton}) {
-  const [open, setOpen] = useState(false);
+export default function DetailProcurement({idProcurement}) {
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [list, setList] = useState()
+  const getDetail = async () => {
+    try {
+      const userResponse = await axios.get(`https://procurement-service.procurement-capstone.site/api/v1/procurements/${idProcurement}`)
+      setList(userResponse.data.data)
+      setOpen(true)
+      console.log("userResponse :",userResponse.data.data)
+    } catch (err) {
+      console.log("error : ", err)
+    }
+  }
+  const [open, setOpen] = useState(false);
+ 
 
   const handleClose = () => {
     setOpen(false);
   };
+
+ 
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Slide in alert dialog
       </Button> */}
       <IconButton
-              // disabled={ableButton}
-              onClick={handleClickOpen} 
+              onClick={getDetail} 
               edge="end" 
-              aria-label="receiptIcon">
-            <ReceiptIcon/>
+              aria-label="detailIcon">
+            <InfoIcon/>
       </IconButton>
       <Dialog
         maxWidth="md"
@@ -55,16 +70,16 @@ export default function Invoice({ableButton}) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"INVOICE"}</DialogTitle>
+        <DialogTitle>{"PROCUREMENT DETAIL"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Invoice Description
-          </DialogContentText>
+          {/* <DialogContentText id="alert-dialog-slide-description">
+            Procurement Description
+          </DialogContentText> */}
           <List>
                 <ListItem
-                  secondaryAction={
+                  secondaryAction={list != undefined &&
                   <Typography>
-                   Use For Event Guidance in New Technology
+                   {list.name}
                   </Typography>
                   }
                 >
@@ -73,25 +88,15 @@ export default function Invoice({ableButton}) {
                   />
                 </ListItem>
                 <ListItem
-                  secondaryAction={
-                  <Typography>
-                    1e1321321321312
+                  secondaryAction={list != undefined &&
+                    <Typography>
+                    {list.id}
                   </Typography>
                   }
+                  
                 >
                   <ListItemText
-                    primary={"Invoice Number :"}
-                  />
-                </ListItem>
-                <ListItem
-                  secondaryAction={
-                  <Typography>
-                    Staff Research and Development
-                  </Typography>
-                  }
-                >
-                  <ListItemText
-                    primary={"Submitter :"}
+                    primary={"Procument Number :"}
                   />
                 </ListItem>
             </List>
@@ -101,33 +106,32 @@ export default function Invoice({ableButton}) {
                 <TableHead >
                   <TableRow sx={{ backgroundColor: "grey"}}>
                     <TableCell>Product Name</TableCell>
-                    <TableCell align="right">Category</TableCell>
+                    <TableCell align="right">Priority</TableCell>
                     <TableCell align="right">Price</TableCell>
                     <TableCell align="right">Quantity</TableCell>
                     <TableCell align="right">Notes</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                {list != undefined && list.procurement_detail.map((item, index) => ( 
                     <TableRow
+                      key={item.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
-                        Name
-                      </TableCell>
-                      <TableCell align="right">Category</TableCell>
-                      <TableCell align="right">Price</TableCell>
-                      <TableCell align="right">Quantity</TableCell>
-                      <TableCell align="right">Notes</TableCell>
+                      <TableCell component="th" scope="row">{item.product_id}</TableCell>
+                      <TableCell align="right">{item.priority}</TableCell>
+                      <TableCell align="right">{item.quantity}</TableCell>
+                      <TableCell align="right">{item.price}</TableCell>
+                      <TableCell align="right">{item.notes}</TableCell>
                     </TableRow>
-                
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Download</Button>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Back</Button>
         </DialogActions>
       </Dialog>
     </div>

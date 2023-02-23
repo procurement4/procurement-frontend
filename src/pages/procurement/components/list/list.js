@@ -75,7 +75,7 @@ const theme = useTheme();
                   key={index}
                   secondaryAction={
                     <IconButton 
-                    onClick={() => dispatch(addProcurementProducts({id: item.id, name: item.name, category: item.category, quantity: '', price: '', priority: 'Select Priority', notes: ''}))} 
+                    onClick={() => dispatch(addProcurementProducts({product_id: item.id, name: item.name, category: item.category, quantity: '', price: '', priority: 'Select Priority', notes: ''}))} 
                     edge="end" 
                     aria-label="add">
                       <AddBox/>

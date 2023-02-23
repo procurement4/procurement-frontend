@@ -20,12 +20,39 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import EditIcon from '@mui/icons-material/Edit';
+
+import TextField from '@mui/material/TextField';
+import NativeSelect from '@mui/material/NativeSelect';
+import axios from 'axios';
+
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Invoice({ableButton}) {
+export default function EditProduct({ableButton, idProduct}) {
+
+  const [list, setList] = useState()
+  const getDetail = async () => {
+    try {
+      const userResponse = await axios.get(`https://product-service.procurement-capstone.site/api/v1/products/${idProduct}`)
+      setList(userResponse.data.data)
+      setOpen(true)
+      console.log("product edit:",userResponse.data.data)
+    } catch (err) {
+      console.log("error : ", err)
+    }
+  }
+
+  const [data, setData] = useState({price: 200, quantity: 15});
+  const handleChange = (e) => {
+    setData((prev)=>({...prev,[e.target.id]:e.target.value }))
+  }
+
+  console.log("list edit product",list)
+
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -35,17 +62,49 @@ export default function Invoice({ableButton}) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const updateProcurement = (payload) => {
+    console.log("payload :", payload)
+    console.log("list.procurement_detail :", list.procurement_detail)
+
+    list.procurement_detail = list.procurement_detail
+      .map((product) => {
+        if (product.product_id == payload.product_id && payload.price !== undefined) {
+          return {
+            ...product,
+            price: payload.price,
+          };
+        } else if (product.product_id == payload.product_id && payload.quantity !== undefined){
+          return {
+            ...product,
+            quantity: payload.quantity,
+          };
+        } else if (product.product_id == payload.product_id && payload.priority !== undefined){
+          return {
+            ...product,
+            priority: payload.priority,
+          };
+        } else if (product.product_id == payload.product_id && payload.notes !== undefined){
+          return {
+            ...product,
+            notes: payload.notes,
+          };
+        }
+        return product;
+      })}
+     
+
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Slide in alert dialog
       </Button> */}
       <IconButton
-              // disabled={ableButton}
-              onClick={handleClickOpen} 
+              disabled={ableButton}
+              onClick={getDetail} 
               edge="end" 
               aria-label="receiptIcon">
-            <ReceiptIcon/>
+            <EditIcon/>
       </IconButton>
       <Dialog
         maxWidth="md"
@@ -55,12 +114,12 @@ export default function Invoice({ableButton}) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"INVOICE"}</DialogTitle>
+        <DialogTitle>{"EDIT PRODUCT"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            Invoice Description
-          </DialogContentText>
-          <List>
+          {/* <DialogContentText id="alert-dialog-slide-description">
+            Procurement Description
+          </DialogContentText> */}
+          {/* <List>
                 <ListItem
                   secondaryAction={
                   <Typography>
@@ -80,21 +139,10 @@ export default function Invoice({ableButton}) {
                   }
                 >
                   <ListItemText
-                    primary={"Invoice Number :"}
+                    primary={"Procument Number :"}
                   />
                 </ListItem>
-                <ListItem
-                  secondaryAction={
-                  <Typography>
-                    Staff Research and Development
-                  </Typography>
-                  }
-                >
-                  <ListItemText
-                    primary={"Submitter :"}
-                  />
-                </ListItem>
-            </List>
+            </List> */}
 
             <TableContainer className="tableCart" component={Paper}>
               <Table sx={{ minWidth: 650}} aria-label="simple table">
@@ -102,24 +150,20 @@ export default function Invoice({ableButton}) {
                   <TableRow sx={{ backgroundColor: "grey"}}>
                     <TableCell>Product Name</TableCell>
                     <TableCell align="right">Category</TableCell>
-                    <TableCell align="right">Price</TableCell>
-                    <TableCell align="right">Quantity</TableCell>
-                    <TableCell align="right">Notes</TableCell>
+                    <TableCell align="right">Stock</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow
+                {list != undefined && <TableRow
+                      key={list.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        Name
+                        {list.name}
                       </TableCell>
-                      <TableCell align="right">Category</TableCell>
-                      <TableCell align="right">Price</TableCell>
-                      <TableCell align="right">Quantity</TableCell>
-                      <TableCell align="right">Notes</TableCell>
-                    </TableRow>
-                
+                      <TableCell align="right">{list.category}</TableCell>
+                      <TableCell align="right"><TextField value={list.stock} onChange={(e) => updateProcurement({product_id: list.id, notes: e.target.value})} id="stock" type="number" variant="standard"/></TableCell>
+                    </TableRow>}
                 </TableBody>
               </Table>
             </TableContainer>

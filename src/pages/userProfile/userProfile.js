@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 
-
+import { useSelector } from 'react-redux';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -24,43 +24,53 @@ import TextField from '@mui/material/TextField';
 
 const userSchema = yup.object().shape({
   name: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  picture: yup.string().required("required"),
 });
 
 
 const initialValuesUser = {
   name: "",
-  email: "",
   picture: "",
 };
 
 
 
 export default function UserProfile() {
+  const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
   const [pageType, setPageType] = useState("login");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  console.log("user :", user)
 
-  const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
+  const register = async (values, onSubmitProps, e) => {
+    try {
+      console.log("values :", values)
+    const updateUser = {id: user.id, name: values.name, email: user.email, rolename: user.rolename, password: "manager", is_active: user.is_active }
+    console.log("update user :", updateUser)
+    const userResponse = await axios.post(`https://user-service.procurement-capstone.site/api/v1/users`, updateUser,{
+      headers: { Authorization : `Bearer ${token}` }
+    })
+    console.log("userResponse :", userResponse)
+    } catch (error) {
+      
     }
-    formData.append("picturePath", values.picture.name);
+    
+    // this allows us to send form info with image
+    // const formData = new FormData();
+    // for (let value in values) {
+    //   formData.append(value, values[value]);
+    // }
+    // formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
+    // const savedUserResponse = await fetch(
+    //   "http://localhost:3001/auth/register",
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   }
+    // );
+    // const savedUser = await savedUserResponse.json();
+    // onSubmitProps.resetForm();
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -113,7 +123,7 @@ export default function UserProfile() {
                         helperText={touched.name && errors.name}
                         sx={{ gridColumn: "span 2" }}
                       />
-                      <TextField
+                      {/* <TextField
                         label="email"
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -122,7 +132,7 @@ export default function UserProfile() {
                         error={Boolean(touched.email) && Boolean(errors.email)}
                         helperText={touched.email && errors.email}
                         sx={{ gridColumn: "span 2" }}
-                      />
+                      /> */}
 
                       <Box
                         gridColumn="span 4"
@@ -160,7 +170,7 @@ export default function UserProfile() {
                           <div>{errors.email}</div>
                         ) : null}
                       </Box>
-                      <Button size="small">Submit</Button>
+                      <Button  type="submit" size="small">Submit</Button>
                       <Button onClick={() => {
                          setPageType(isLogin ? "register" : "login")}} size="small">Cancel</Button>
                     </>

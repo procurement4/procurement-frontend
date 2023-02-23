@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux';
 
 
 import Layout from './layout/layout';
-import LayoutAdmin from './layout/layout-admin';
-import Home from './pages/home/home';
+// import LayoutAdmin from './layout/layout-admin';
+// import Home from './pages/home/home';
 import Procurement from './pages/procurement/procurement';
-import Admin from './pages/admin/admin';
+// import Admin from './pages/admin/admin';
 import Login from './pages/login/login';
 import PageNotFound from './pages/404/pageNotFound';
 import Stock from './pages/stock/stock';
@@ -36,21 +36,21 @@ function App() {
         <CssBaseline />
         <Routes>
           <Route path='/' element={<Layout />} >
-            <Route index element={<Navigate to="/home" replace />} />
-            <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/>} />
-            <Route path='procurement' element={ <Procurement /> } />
-            <Route path='stock' element={ <Stock columns={stockColumns} /> } />
-            <Route path='adminusers' element={ <AdminUsers columns={usersColumns} /> } />
-            <Route path='adminprocurement' element={ <AdminProcurement columns={procurementColumns} /> } />
-            <Route path='userprofile' element={ <UserProfile /> } />
+            <Route index element={<Navigate to="/procurement" replace />} />
+            {/* <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/>} /> */}
+            <Route path='procurement' element={isAuth ? <Procurement /> : <Navigate to="/login"/>}/>
+            <Route path='stockprocurement' element={isAuth ? <Stock columns={stockColumns} /> : <Navigate to="/login"/>} />
+            <Route path='adminusers' element={isAuth ? <AdminUsers columns={usersColumns} /> : <Navigate to="/login"/>} />
+            <Route path='adminprocurement' element={ isAuth ?  <AdminProcurement columns={procurementColumns} /> : <Navigate to="/login"/> } />
+            <Route path='userprofile' element={isAuth ? <UserProfile /> : <Navigate to="/login"/> } />
             {/* router guard !isAuth direct to login page */}
             {/* <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/> } /> */}
           </Route>
 
-          <Route path='/admin' element={ isAuth ? <LayoutAdmin /> : <Navigate to="/login"/>} >
+          {/* <Route path='/admin' element={ isAuth ? <LayoutAdmin /> : <Navigate to="/login"/>} >
             <Route index element={<Admin />} >
             </Route>
-          </Route>
+          </Route> */}
 
           <Route path='/login' element={<Login />} >
           </Route>

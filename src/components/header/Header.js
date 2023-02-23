@@ -16,12 +16,13 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 // import { red } from '@mui/material/colors';
+import { Link, useNavigate } from "react-router-dom";
 
 import { setLogout } from '../../stores/authSlice';
 
 const pages = ['Home', 'Procurement', 'Stock'];
-const menus = ['Home', 'Procurement', 'Stock'];
-const settings = ['Profile', 'Reset Password','Logout'];
+const menus = ['Admin Procurement', 'Procurement', 'Stock', 'Users'];
+const settings = ['Profile', 'Logout'];
 
 export function Header() {
 
@@ -71,11 +72,26 @@ export function Header() {
           <Box
           sx={{display: { xs: 'none', md: 'flex' },mr:2}}
           >
-           {menus.map((menu) => (
-                <MenuItem key={menu}>
-                  <Typography textAlign="center">{menu}</Typography>
+               <Link to="/adminprocurement" style={{  color: "white" }}>
+                <MenuItem>
+                  <Typography textAlign="center">Admin Procurement</Typography>
                 </MenuItem>
-              ))}
+                </Link>
+                <Link to="/procurement" style={{  color: "white"}}>
+                <MenuItem>
+                  <Typography textAlign="center">Procurement</Typography>
+                </MenuItem>
+                </Link>
+                <Link to="/stock" style={{  color: "white"}}>
+                <MenuItem>
+                  <Typography textAlign="center">Stock</Typography>
+                </MenuItem>
+                </Link>
+                <Link to="/adminusers" style={{  color: "white"}}>
+                <MenuItem>
+                  <Typography textAlign="center">Users</Typography>
+                </MenuItem>
+                </Link>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>

@@ -1,45 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = { 
-    data: [
-        {
-          id: 1,
-          name: 'Book',
-          category: 'Office',
-          stock : 5,
-          price: '450',
-        },
-        {
-          id: 2,
-          name: 'Pencil',
-          category: 'Office',
-          stock : 24,
-          price: '150',
-        },
-        {
-          id: 3,
-          name: 'Eraser',
-          category: 'Office',
-          stock : 22,
-          price: '100',
-        },
-        {
-          id: 4,
-          name: 'Bread',
-          category: 'Logistic',
-          stock : 100,
-          price: '2500',
-        },
-        {
-          id: 5,
-          name: 'Bottle Water',
-          category: 'Logistic',
-          stock : 110,
-          price: '2000',
-        }
-        ],
+    data: [],
     category: [],
-    procurement: []
+    procurement: [],
+    newprocurement: []
 }
 
 // user: null,
@@ -49,6 +14,10 @@ export const productSlice = createSlice({
     name: "product",
     initialState,
     reducers : {
+        setProduct: (state, payload) => {
+          state.data = payload.payload;
+        console.log("payload", payload.payload)
+        },
         addProduct: (state, payload) => {
         if (payload.payload.length === undefined) {
           state.data = [...state.data, payload.payload];
@@ -59,7 +28,8 @@ export const productSlice = createSlice({
         },
         productCategory: (state, payload) => {
             let { data } = state;
-            state.category =  data.filter((item) => item.category !== payload.payload);
+            state.category =  data.filter((item) => item.category === payload.payload);
+            console.log("payload category : ", payload.payload)
         },
         addProcurementProducts: (state, payload) => {
         if (payload.payload.length === undefined) {
@@ -70,24 +40,29 @@ export const productSlice = createSlice({
         // console.log("payload", data)
         },
         updateProcurement: (state, payload) => {
+          console.log("payload", payload)
+          console.log("id : ", payload.payload.product_id)
+          console.log("price : ", payload.payload.price)
+          console.log("quantity : ", payload.payload.quantity)
+
           state.procurement = state.procurement
             .map((product) => {
-              if (product.id === payload.payload.id && payload.payload.price !== undefined) {
+              if (product.product_id == payload.payload.product_id && payload.payload.price !== undefined) {
                 return {
                   ...product,
                   price: payload.payload.price,
                 };
-              } else if (product.id === payload.payload.id && payload.payload.quantity !== undefined){
+              } else if (product.product_id == payload.payload.product_id && payload.payload.quantity !== undefined){
                 return {
                   ...product,
                   quantity: payload.payload.quantity,
                 };
-              } else if (product.id === payload.payload.id && payload.payload.priority !== undefined){
+              } else if (product.product_id == payload.payload.product_id && payload.payload.priority !== undefined){
                 return {
                   ...product,
                   priority: payload.payload.priority,
                 };
-              } else if (product.id === payload.payload.id && payload.payload.notes !== undefined){
+              } else if (product.product_id == payload.payload.product_id && payload.payload.notes !== undefined){
                 return {
                   ...product,
                   notes: payload.payload.notes,
@@ -95,18 +70,54 @@ export const productSlice = createSlice({
               }
               return product;
             })
-            console.log("payload", payload)
-            console.log("id : ", payload.payload.id)
-            console.log("price : ", payload.payload.price)
-            console.log("quantity : ", payload.payload.quantity)
+           
         },
         deleteProcurementProduct: (state, payload) => {
           let { procurement } = state;
-          state.procurement =  procurement.filter((item) => item.id !== payload.payload);
+          state.procurement =  procurement.filter((item) => item.product_id !== payload.payload);
+        },
+        resetProcurement: (state, payload) => {
+          state.procurement = [];
+        },
+        setNewProcurement: (state, payload) => {
+          state.newprocurement = payload.payload;
+        console.log("payload update procurement", payload.payload)
+        },
+        newProcurementUpdate: (state, payload) => {
+          console.log("payload new procurement", payload)
+          console.log("id new procurement: ", payload.payload.product_id)
+          console.log("price new procurement: ", payload.payload.price)
+          console.log("quantity new procurement: ", payload.payload.quantity)
+
+          state.newprocurement = state.newprocurement
+            .map((product) => {
+              if (product.product_id == payload.payload.product_id && payload.payload.price !== undefined) {
+                return {
+                  ...product,
+                  price: payload.payload.price,
+                };
+              } else if (product.product_id == payload.payload.product_id && payload.payload.quantity !== undefined){
+                return {
+                  ...product,
+                  quantity: payload.payload.quantity,
+                };
+              } else if (product.product_id == payload.payload.product_id && payload.payload.priority !== undefined){
+                return {
+                  ...product,
+                  priority: payload.payload.priority,
+                };
+              } else if (product.product_id == payload.payload.product_id && payload.payload.notes !== undefined){
+                return {
+                  ...product,
+                  notes: payload.payload.notes,
+                };
+              }
+              return product;
+            })
         },
       }
 });
 
-export const {addProduct, productCategory, addProcurementProducts, updateProcurement, deleteProcurementProduct } = productSlice.actions;
+export const {setProduct, addProduct, productCategory, addProcurementProducts, updateProcurement, deleteProcurementProduct, resetProcurement,newProcurementUpdate, setNewProcurement } = productSlice.actions;
 
 export default productSlice.reducer;

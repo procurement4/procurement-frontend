@@ -1,9 +1,9 @@
 export const usersColumns = [
-  { field: "id", headerName: "ID", width: 100 },
+  { field: "id", headerName: "ID", width: 80 },
   {
     field: "name",
     headerName: "Name",
-    width: 200,
+    width: 150,
   },
   {
     field: "email",
@@ -13,54 +13,62 @@ export const usersColumns = [
   {
     field: "rolename",
     headerName: "Rolename",
-    width: 230,
-  },
-
-  {
-    field: "is_active",
-    headerName: "Is Active?",
     width: 120,
   },
 ];
 
+
 export const procurementColumns = [
-  { 
-    field: "id",
-    headerName: "ID",
-    width: 80 
-  },
-  { 
-    field: "procurement_name",
-    headerName: "Procurement Name",
-    width: 200 
-  },
-  { 
-    field: "product_name",
-    headerName: "Product Name",
-    width: 170 
-  },
-  {
-    field: "price",
-    headerName: "Price",
-    width: 100,
-  },
-  {
-    field: "quantity",
-    headerName: "Quantity",
-    width: 100,
-  },
-  {
-    field: "priority",
-    headerName: "Priority",
-    width: 100,
-  },
-  {
-    field: "notes",
-    headerName: "Notes",
-    width: 220,
-  },
+    { 
+      field: "id",
+      headerName: "ID",
+      width: 80 
+    },
+    { 
+      field: "name",
+      headerName: "Procurement Name",
+      width: 200 
+    },
+  ]
+
+// export const procurementColumns = [
+//   { 
+//     field: "id",
+//     headerName: "ID",
+//     width: 80 
+//   },
+//   { 
+//     field: "procurement_name",
+//     headerName: "Procurement Name",
+//     width: 200 
+//   },
+//   { 
+//     field: "product_name",
+//     headerName: "Product Name",
+//     width: 170 
+//   },
+//   {
+//     field: "price",
+//     headerName: "Price",
+//     width: 100,
+//   },
+//   {
+//     field: "quantity",
+//     headerName: "Quantity",
+//     width: 100,
+//   },
+//   {
+//     field: "priority",
+//     headerName: "Priority",
+//     width: 100,
+//   },
+//   {
+//     field: "notes",
+//     headerName: "Notes",
+//     width: 220,
+//   },
  
-];
+// ];
 
 export const stockColumns = [
   { 
@@ -71,7 +79,7 @@ export const stockColumns = [
   { 
     field: "name",
     headerName: "Name",
-    width: 120 
+    width: 150 
   },
   { 
     field: "category",

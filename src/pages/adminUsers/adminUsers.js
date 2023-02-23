@@ -1,11 +1,17 @@
+import React, { useEffect, useState } from "react";
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import FlexBetween from "../../components/FlexBetween";
+
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import "./adminUsers.scss";
-import Box from '@mui/material/Box';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
+import Chip from '@mui/material/Chip';
 // primary.dark
 
 const shapeStyles = { bgcolor: 'neutral.main', width: 40, height: 40 };
@@ -52,9 +58,25 @@ const AdminUsers = ({columns}) => {
 
   const actionColumn = [
     {
+      field: "is_active",
+      headerName: "Active",
+      width: 120,
+      renderCell: (params) => {
+        console.log("user params", params)
+        return (
+          <div className="cellAction">
+            {/* <Link to="/users/test" style={{ textDecoration: "none" }}>
+              <div className="viewButton">View</div>
+            </Link> */}
+            <Chip label={params.row.is_active ? "True" : "False"} color={params.row.is_active ? "success" : "warning"} variant="outlined" />
+          </div>
+        );
+      },
+    },
+    {
       field: "Online",
       headerName: "Online",
-      width: 200,
+      width: 120,
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -87,20 +109,25 @@ const AdminUsers = ({columns}) => {
     },
   ];
   return (
-    <Box className="box" style={{ height: 400, width: '100%' }}>
-    <div className="datatableTitle">
-        Stock Table
-      </div>
-      <DataGrid
-        rows={data}
-        columns={columns.concat(actionColumn)}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        getRowId={(row)=>row.id}
-        className="datatable"
-      />
-    </Box>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Box sx={{  height: '70vh', padding: 5, borderRadius: 10 }}>
+          <div className="datatableTitle">
+          Manage Users
+          </div>
+          <DataGrid
+            rows={data}
+            columns={columns.concat(actionColumn)}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            getRowId={(row)=>row.id}
+            className="datatable"
+          />
+         </Box>
+      </Container>
+    </React.Fragment>
   )
 }
 

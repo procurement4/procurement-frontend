@@ -12,6 +12,7 @@ import {
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
 
 const Login = () => {
@@ -21,11 +22,24 @@ const Login = () => {
   const isAuth = Boolean(useSelector((state) => state.auth.token));
 
   if (isAuth === true) {
-    return <Navigate to="/home"/>
+    return <Navigate to="/procurement"/>
   }
 
   return (
     <div className='relative'>
+     <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          transition={Slide}
+          limit={2}
+        />
       <div className='overlay '>
         <div>
           <div className='glassmorph'>
