@@ -1,0 +1,104 @@
+// best seen at 1500px or less
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color:white;
+  overflow: hidden;
+}
+.relative {
+  position: relative;
+  height: fit-content;
+}
+
+.overlay {
+  position: fixed;
+  //   display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  //   cursor: pointer; /* Add a pointer on hover */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    // padding-right: 20pt;
+    // padding-left: 20pt;
+    // max-width: 250pt;
+
+    .glassmorph {
+      /* From https://css.glass */
+      background: rgba(255, 255, 255, 0.51);
+      border-radius: 16px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      translateZ: 0px;
+
+      padding: 15pt 20pt 15pt 20pt;
+    }
+
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // width: fit-content;
+    // height: fit-content;
+    // transform: translate(-50%, -50%);
+    // -ms-transform: translate(-50%, -50%);
+  }
+}
+
+.ocean {
+  height: 30%;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #0A0A0A;
+}
+
+.wave {
+  background: url(../../assets/wave.svg) repeat-x;
+  position: absolute;
+  top: -198px;
+  width: 6400px;
+  height: 198px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+  top: -175px;
+  animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
+    swell 7s ease -1.25s infinite;
+  opacity: 1;
+}
+
+@keyframes wave {
+  0% {
+    margin-left: 0;
+  }
+  100% {
+    margin-left: -1600px;
+  }
+}
+
+@keyframes swell {
+  0%,
+  100% {
+    transform: translate3d(0, -25px, 0);
+  }
+  50% {
+    transform: translate3d(0, 5px, 0);
+  }
+}
