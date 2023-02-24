@@ -24,19 +24,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import InfoIcon from '@mui/icons-material/Info';
 import useFetch from "../../../../hooks/useFetch";
 import axios from 'axios';
-<<<<<<< HEAD
 import ReactPDF from '@react-pdf/renderer';
-// import MyDocument from './invoice/invoice';
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
+import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-<<<<<<< HEAD
 const styles = StyleSheet.create({
   table: { 
     marginTop: 20, 
@@ -71,8 +65,6 @@ const styles = StyleSheet.create({
 });
 
 
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
 export default function DetailProcurement({idProcurement}) {
 
   const [list, setList] = useState()
@@ -89,15 +81,11 @@ export default function DetailProcurement({idProcurement}) {
   const [open, setOpen] = useState(false);
  
 
-<<<<<<< HEAD
  console.log("list : ",list)
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   const handleClose = () => {
     setOpen(false);
   };
 
-<<<<<<< HEAD
   const MyDocument = () => (
     <Document>
     {list !== undefined && <Page size="A4" orientation="landscape" style={styles.body}>
@@ -153,9 +141,6 @@ export default function DetailProcurement({idProcurement}) {
   </Document>
   );
 
-=======
- 
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
 
   return (
     <div>
@@ -237,20 +222,13 @@ export default function DetailProcurement({idProcurement}) {
 
         </DialogContent>
         <DialogActions>
-<<<<<<< HEAD
           <PDFDownloadLink document={<MyDocument />} filename="FORM">
             <Button onClick={handleClose}>Download Invoice</Button>
           </PDFDownloadLink>
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
           <Button onClick={handleClose}>Back</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-<<<<<<< HEAD
 }
 
-=======
-}
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3

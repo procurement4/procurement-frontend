@@ -62,11 +62,7 @@ const theme = useTheme();
 
 
   return (
-<<<<<<< HEAD
     <Box className='listBox' sx={{ flexGrow: 1, maxWidth: 382, marginTop: 2, marginLeft: 10}}>
-=======
-    <Box className='listBox' sx={{ flexGrow: 1, maxWidth: 382, marginTop: 2}}>
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Typography sx={{ mt: 1, mb: 1 }} variant="h6" component="div">

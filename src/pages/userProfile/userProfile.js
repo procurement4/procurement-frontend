@@ -50,30 +50,12 @@ export default function UserProfile() {
     const updateUser = {id: user.id, name: values.name, email: user.email, rolename: user.rolename, password: "manager", is_active: user.is_active }
     console.log("update user :", updateUser)
 
-    // const formData = new FormData();
-    // for (let value in values) {
-    //   formData.append(value, values[value]);
-    // }
-    // formData.append("picturePath", values.picture.name);
-
-    // console.log("formData  :", formData)
-    // const savedUserResponse = await fetch(
-    //   "http://localhost:3001/auth/register",
-    //   {
-    //     method: "POST",
-    //     body: formData,
-    //   }
-    // );
-    // const savedUser = await savedUserResponse.json();
-    // onSubmitProps.resetForm();
-
-
 
     const userResponse = await axios.post(`https://user-service.procurement-capstone.site/api/v1/users`, updateUser,{
       headers: { Authorization : `Bearer ${token}` }
     })
     console.log("userResponse :", userResponse)
-    // dispatch(setUser({ user: userResponse.data.data}))
+    dispatch(setUser({ user: userResponse.data.data}))
     toast.success('Success', {
       position: "top-center",
       autoClose: 5000,

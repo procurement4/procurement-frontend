@@ -85,11 +85,7 @@ const Procurement = () => {
         <Grid container spacing={2}>
 
           <Grid item xs={6} md={4}>
-<<<<<<< HEAD
             <Box sx={{marginLeft: 10, minWidth: 340 , maxWidth: 382, marginTop: 10}}>
-=======
-            <Box sx={{ minWidth: 340 , maxWidth: 382, marginTop: 10}}>
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
               <FormControl fullWidth margin="normal">
                 <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
                 <Select

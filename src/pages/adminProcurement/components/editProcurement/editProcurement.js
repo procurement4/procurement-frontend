@@ -34,11 +34,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-<<<<<<< HEAD
 export default function EditProcurement({idProcurement}) {
-=======
-export default function EditProcurement({ableButton, idProcurement}) {
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   const dispatch = useDispatch();
   const detail_procurement = useSelector((state) => state.product.newprocurement);
   const user = useSelector((state) => state.auth.user);
@@ -86,7 +82,6 @@ export default function EditProcurement({ableButton, idProcurement}) {
   const handleClick = async e => {
     e.preventDefault();
     try {
-<<<<<<< HEAD
       const {id, name, is_approved_manager, is_rejected_manager, ...otherDetails} = list
       let newProcurementDetail = [] 
           newProcurementDetail = detail_procurement.map((detail) => {
@@ -100,14 +95,6 @@ export default function EditProcurement({ableButton, idProcurement}) {
       const uploadRes = await axios.post('https://procurement-service.procurement-capstone.site/api/v1/update_procurements', procurement)
       console.log("update new procurement : ", uploadRes)
       setOpen(false);
-=======
-      const {procurement_detail, ...otherDetails} = list
-      const procurement = {...otherDetails,user_id: user.id,  detail_procurement}
-      console.log("update procurement: ", procurement)
-      const uploadRes = await axios.patch('https://procurement-service.procurement-capstone.site/api/v1/procurements', procurement)
-      console.log("update new procurement : ", uploadRes)
-  
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
       toast.success('Success', {
         position: "top-center",
         autoClose: 5000,
@@ -132,21 +119,14 @@ export default function EditProcurement({ableButton, idProcurement}) {
     }
   }
 
-<<<<<<< HEAD
   
 
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   return (
     <div>
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Slide in alert dialog
       </Button> */}
       <IconButton
-<<<<<<< HEAD
-=======
-              disabled={ableButton}
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
               onClick={getDetail} 
               edge="end" 
               aria-label="receiptIcon">

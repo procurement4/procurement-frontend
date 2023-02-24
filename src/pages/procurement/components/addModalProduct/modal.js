@@ -10,7 +10,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import NativeSelect from '@mui/material/NativeSelect';
 import { ToastContainer, toast, Slide } from 'react-toastify';
-<<<<<<< HEAD
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { addProduct } from '../../../../stores/productSlice';
@@ -20,14 +19,6 @@ import axios from 'axios';
 export default function FormDialog() {
   const user = useSelector((state) => state.auth.user);
 
-=======
-
-import { useDispatch } from "react-redux";
-import { addProduct } from '../../../../stores/productSlice';
-
-
-export default function FormDialog() {
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -49,17 +40,11 @@ export default function FormDialog() {
   const handleClick = async e => {
     e.preventDefault();
     try {
-<<<<<<< HEAD
       console.log("new product :", newProduct)
       const product = {...newProduct, stock: 1, user_id: user.id, is_deleted: false }
       const uploadRes = await axios.post( 'https://product-service.procurement-capstone.site/api/v1/products', product)
       console.log("upload res :", uploadRes)
       setOpen(false); 
-=======
-      // const uploadRes = await axios.post( '/users', info)
-      const uploadRes = await dispatch(addProduct(newProduct))  
-      setOpen(false);
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
       toast.success('Success', {
         position: "top-center",
         autoClose: 5000,
@@ -85,11 +70,7 @@ export default function FormDialog() {
 
   return (
     <div>
-<<<<<<< HEAD
       <Button  sx={{marginTop: 12}} variant="outlined" onClick={handleClickOpen}>
-=======
-      <Button  sx={{marginTop: 15}} variant="outlined" onClick={handleClickOpen}>
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
         Add Product
       </Button>
       <Dialog open={open} onClose={handleClose}>

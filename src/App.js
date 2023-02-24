@@ -39,11 +39,7 @@ function App() {
             <Route index element={<Navigate to="/procurement" replace />} />
             {/* <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/>} /> */}
             <Route path='procurement' element={isAuth ? <Procurement /> : <Navigate to="/login"/>}/>
-<<<<<<< HEAD
             <Route path='stock' element={isAuth ? <Stock columns={stockColumns} /> : <Navigate to="/login"/>} />
-=======
-            <Route path='stockprocurement' element={isAuth ? <Stock columns={stockColumns} /> : <Navigate to="/login"/>} />
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
             <Route path='adminusers' element={isAuth ? <AdminUsers columns={usersColumns} /> : <Navigate to="/login"/>} />
             <Route path='adminprocurement' element={ isAuth ?  <AdminProcurement columns={procurementColumns} /> : <Navigate to="/login"/> } />
             <Route path='userprofile' element={isAuth ? <UserProfile /> : <Navigate to="/login"/> } />
@@ -51,14 +47,6 @@ function App() {
             {/* <Route path='home' element={ isAuth ? <Home /> : <Navigate to="/login"/> } /> */}
           </Route>
 
-<<<<<<< HEAD
-=======
-          {/* <Route path='/admin' element={ isAuth ? <LayoutAdmin /> : <Navigate to="/login"/>} >
-            <Route index element={<Admin />} >
-            </Route>
-          </Route> */}
-
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
           <Route path='/login' element={<Login />} >
           </Route>
           <Route path='*' element={<PageNotFound />} >
