@@ -261,9 +261,9 @@ const circle = (
               aria-label="receiptIcon">
                  <ReceiptIcon/>
             </IconButton> */}
-            <Invoice idProcurement={params.row.id} ableButton={ableButtonInvoice}/>
+            {/* <Invoice idProcurement={params.row.id} ableButton={ableButtonInvoice}/> */}
             <Edit idProcurement={params.row.id}/>
-            <Detail idProcurement={params.row.id}/>
+            <Detail ableButton={ableButtonInvoice} idProcurement={params.row.id}/>
           
           </div>
         );

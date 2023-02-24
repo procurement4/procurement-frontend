@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 });
 
 
-export default function DetailProcurement({idProcurement}) {
+export default function DetailProcurement({idProcurement, ableButton}) {
 
   const [list, setList] = useState()
   const getDetail = async () => {
@@ -223,7 +223,7 @@ export default function DetailProcurement({idProcurement}) {
         </DialogContent>
         <DialogActions>
           <PDFDownloadLink document={<MyDocument />} filename="FORM">
-            <Button onClick={handleClose}>Download Invoice</Button>
+            <Button disabled={ableButton} onClick={handleClose}>Download Invoice</Button>
           </PDFDownloadLink>
           <Button onClick={handleClose}>Back</Button>
         </DialogActions>
