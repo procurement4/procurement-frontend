@@ -21,16 +21,10 @@ import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
-<<<<<<< HEAD
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import { setUser } from "../../stores/authSlice";
 
 const userSchema = yup.object().shape({
-=======
-
-const userSchema = yup.object().shape({
-  name: yup.string().required("required"),
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
 });
 
 
@@ -42,10 +36,7 @@ const initialValuesUser = {
 
 
 export default function UserProfile() {
-<<<<<<< HEAD
   const dispatch = useDispatch();
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
   const [pageType, setPageType] = useState("login");
@@ -55,35 +46,17 @@ export default function UserProfile() {
 
   const register = async (values, onSubmitProps, e) => {
     try {
-      console.log("values :", values)
+    console.log("values :", values)
     const updateUser = {id: user.id, name: values.name, email: user.email, rolename: user.rolename, password: "manager", is_active: user.is_active }
     console.log("update user :", updateUser)
-<<<<<<< HEAD
 
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
-
-    console.log("formData  :", formData)
-=======
-    const userResponse = await axios.post(`https://user-service.procurement-capstone.site/api/v1/users`, updateUser,{
-      headers: { Authorization : `Bearer ${token}` }
-    })
-    console.log("userResponse :", userResponse)
-    } catch (error) {
-      
-    }
-    
-    // this allows us to send form info with image
     // const formData = new FormData();
     // for (let value in values) {
     //   formData.append(value, values[value]);
     // }
     // formData.append("picturePath", values.picture.name);
 
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
+    // console.log("formData  :", formData)
     // const savedUserResponse = await fetch(
     //   "http://localhost:3001/auth/register",
     //   {
@@ -93,14 +66,13 @@ export default function UserProfile() {
     // );
     // const savedUser = await savedUserResponse.json();
     // onSubmitProps.resetForm();
-<<<<<<< HEAD
 
 
 
-    // const userResponse = await axios.post(`https://user-service.procurement-capstone.site/api/v1/users`, updateUser,{
-    //   headers: { Authorization : `Bearer ${token}` }
-    // })
-    // console.log("userResponse :", userResponse)
+    const userResponse = await axios.post(`https://user-service.procurement-capstone.site/api/v1/users`, updateUser,{
+      headers: { Authorization : `Bearer ${token}` }
+    })
+    console.log("userResponse :", userResponse)
     // dispatch(setUser({ user: userResponse.data.data}))
     toast.success('Success', {
       position: "top-center",
@@ -125,8 +97,6 @@ export default function UserProfile() {
         });
     }
 
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -137,7 +107,6 @@ export default function UserProfile() {
   const img = "https://www.shutterstock.com/image-vector/user-login-authenticate-icon-human-600w-1365533969.jpg"
   return (
     <React.Fragment>
-<<<<<<< HEAD
      <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -151,8 +120,6 @@ export default function UserProfile() {
           transition={Slide}
           limit={2}
         />
-=======
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
       <CssBaseline />
       <Container maxWidth="sm">
         <Box sx={{ bgcolor: '#1A1A1A',  height: '70vh', marginTop: 10, padding: 5, borderRadius: 10 }}>
@@ -261,7 +228,6 @@ export default function UserProfile() {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-<<<<<<< HEAD
                 {user.name}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -269,15 +235,6 @@ export default function UserProfile() {
               </Typography>
               <Typography sx={{marginTop: 1}} variant="body2" color="text.secondary">
                 {user.rolename}
-=======
-                Finance Director
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                financedirector@gmail.com
-              </Typography>
-              <Typography sx={{marginTop: 1}} variant="body2" color="text.secondary">
-                Finance
->>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
               </Typography>
             </CardContent>
             <CardActions>
