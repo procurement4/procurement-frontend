@@ -87,8 +87,13 @@ const handleClick = async e => {
 
 
   return (
+<<<<<<< HEAD
     <TableContainer sx={{ minWidth: 650, marginRight: 20}} className="tableCart" component={Paper}>
     <Table  aria-label="simple table">
+=======
+    <TableContainer className="tableCart" component={Paper}>
+    <Table sx={{ minWidth: 650}} aria-label="simple table">
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
       <TableHead >
         <TableRow>
           <TableCell colSpan={1} align="center" >Procurement Name</TableCell>

@@ -72,22 +72,38 @@ export function Header() {
           <Box
           sx={{display: { xs: 'none', md: 'flex' },mr:2}}
           >
+<<<<<<< HEAD
                <Link to="/adminprocurement" style={{  color: "white", textDecoration: 'none' }}>
+=======
+               <Link to="/adminprocurement" style={{  color: "white" }}>
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
                 <MenuItem>
                   <Typography textAlign="center">Admin Procurement</Typography>
                 </MenuItem>
                 </Link>
+<<<<<<< HEAD
                 <Link to="/procurement" style={{  color: "white", textDecoration: 'none'}}>
+=======
+                <Link to="/procurement" style={{  color: "white"}}>
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
                 <MenuItem>
                   <Typography textAlign="center">Procurement</Typography>
                 </MenuItem>
                 </Link>
+<<<<<<< HEAD
                 <Link to="/stock" style={{  color: "white", textDecoration: 'none'}}>
+=======
+                <Link to="/stock" style={{  color: "white"}}>
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
                 <MenuItem>
                   <Typography textAlign="center">Stock</Typography>
                 </MenuItem>
                 </Link>
+<<<<<<< HEAD
                 <Link to="/adminusers" style={{  color: "white", textDecoration: 'none'}}>
+=======
+                <Link to="/adminusers" style={{  color: "white"}}>
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
                 <MenuItem>
                   <Typography textAlign="center">Users</Typography>
                 </MenuItem>
@@ -187,6 +203,7 @@ export function Header() {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+<<<<<<< HEAD
             >   
              
                 <MenuItem >
@@ -198,6 +215,14 @@ export function Header() {
                 <MenuItem onClick={() => dispatch(setLogout())} >
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
+=======
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={() => dispatch(setLogout())} >
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
             </Menu>
           </Box>
           

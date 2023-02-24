@@ -8,7 +8,10 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "@mui/x-data-grid": "^5.17.22",
+<<<<<<< HEAD
     "@react-pdf/renderer": "^3.1.6",
+=======
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
     "@reduxjs/toolkit": "^1.9.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

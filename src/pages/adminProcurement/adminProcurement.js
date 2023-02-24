@@ -226,6 +226,7 @@ const circle = (
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
+<<<<<<< HEAD
         let disableButton;
         let ableButtonInvoice = true;
         if (params.row.is_approved_manager === true || params.row.is_rejected_manager === true) {
@@ -233,6 +234,13 @@ const circle = (
         } else if (params.row.is_approved_finance === true || params.row.is_rejected_finance === true) {
           disableButton = true
         }
+=======
+        let disableButtonFinance;
+        let ableButtonInvoice = true;
+        if (params.row.is_approved_manager === false && params.row.is_rejected_manager === false) {
+          disableButtonFinance = true
+        } 
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
 
         if (params.row.is_approved_manager === true && params.row.is_approved_finance === true) {
           ableButtonInvoice = false
@@ -244,13 +252,20 @@ const circle = (
             </Link> */}
             <IconButton 
              onClick={() => handleClick(params.row.id, "accept")}
+<<<<<<< HEAD
               disabled={disableButton}
+=======
+              // disabled={disableButtonFinance}
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
               edge="start" 
               aria-label="Accept Procurement">
                  <CheckCircleIcon/>
             </IconButton>
             <IconButton 
+<<<<<<< HEAD
             disabled={disableButton}
+=======
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
                onClick={() => handleClick(params.row.id, "reject")}
               edge="start" 
               aria-label="Reject Procurement">
@@ -261,7 +276,11 @@ const circle = (
               aria-label="receiptIcon">
                  <ReceiptIcon/>
             </IconButton> */}
+<<<<<<< HEAD
             <Invoice idProcurement={params.row.id} ableButton={ableButtonInvoice}/>
+=======
+            <Invoice ableButton={ableButtonInvoice}/>
+>>>>>>> 5109643ab88ba5e225a093921940c9b60d05adc3
             <Edit idProcurement={params.row.id}/>
             <Detail idProcurement={params.row.id}/>
           
